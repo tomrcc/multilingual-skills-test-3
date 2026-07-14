@@ -1272,6 +1272,10 @@ body h6 {
   font-family: var(--heading-font), Lato, serif;
 }
 
+[data-rcc] {
+  display: contents;
+}
+
 header,
 footer,
 main {

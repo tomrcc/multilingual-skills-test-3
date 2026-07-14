@@ -26,6 +26,13 @@ body {
   }
 }
 
+// The RCC snapshot boundary wraps header/main/footer. `display: contents`
+// keeps it in the DOM (so the connector can clone it on locale switch) while
+// removing its box, so header/main/footer stay direct grid items of `body`.
+[data-rcc] {
+  display: contents;
+}
+
 header,
 footer,
 main {

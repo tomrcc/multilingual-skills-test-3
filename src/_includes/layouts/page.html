@@ -27,8 +27,10 @@
             {% include 'partials/footer/footer.html' %}
         </div>
         <script>
+            // esbuild bundles src/assets/js/rcc.js -> /assets/js/rcc.js. A bare
+            // "rosey-cloudcannon-connector" specifier can't resolve in the browser.
             if (window?.inEditorMode) {
-                import("rosey-cloudcannon-connector");
+                import("/assets/js/rcc.js");
             }
         </script>
     </body>
