@@ -1,6 +1,6 @@
 {% assign_local c = "c-phone-input" %}
-<div class="{{ c }}">
-    <label class="{{ c }}__label" for="{{ id }}">{{ label }}{% if required %} *{% endif %}</label>
+<div class="{{ c }}"{% if rosey_ns != nil %} data-rosey-ns="field-{{ rosey_ns }}"{% endif %}>
+    <label class="{{ c }}__label" for="{{ id }}"><span data-rosey="label">{{ label }}</span>{% if required %} *{% endif %}</label>
     <input class="{{ c }}__input"
         type="tel" id="{{ id }}" 
         name="{{ label }}" 

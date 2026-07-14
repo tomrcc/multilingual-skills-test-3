@@ -7,7 +7,7 @@
     onsubmit="return validateFormSubmit(event, this)">
 
     {% for element in form_elements %}
-        {% bookshop "{{element._bookshop_name}}" bind: element %}
+        {% bookshop "{{element._bookshop_name}}" bind: element rosey_ns:forloop.index0 %}
     {% endfor %}
 
     <input type="text" name="_gotcha" style="display: none;">

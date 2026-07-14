@@ -12,14 +12,25 @@
         {% include 'partials/head/google-fonts.html' %}
     </head>
     <body>
-        {% include 'partials/nav/navigation.html' %}
-        <main id="main">
-            {% bookshop_include "hero" hero: hero title: title permalink: permalink %}
+        {% assign rosey_slug = page.url | replace: '/', '' %}
+        {% if rosey_slug == '' %}{% assign rosey_slug = 'index' %}{% endif %}
+        <div data-rcc>
+            {% include 'partials/nav/navigation.html' %}
+            <main id="main" data-rosey-root="{{ rosey_slug }}">
+                <div data-rosey-ns="hero">
+                    {% bookshop_include "hero" hero: hero title: title permalink: permalink %}
+                </div>
 
-            {% bookshop_include "page" content_blocks: content_blocks %}
-            {{ content }}
-        </main>
-        {% include 'partials/footer/footer.html' %}
+                {% bookshop_include "page" content_blocks: content_blocks %}
+                {{ content }}
+            </main>
+            {% include 'partials/footer/footer.html' %}
+        </div>
+        <script>
+            if (window?.inEditorMode) {
+                import("rosey-cloudcannon-connector");
+            }
+        </script>
     </body>
     {% if content_blocks %}
         {% assign include-map = content_blocks | contains_block: "simple/google-map-embed" %}

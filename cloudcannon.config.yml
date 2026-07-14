@@ -1,10 +1,12 @@
-source: src
+# `source` intentionally omitted: CloudCannon resolves data_config/collections_config
+# paths relative to the repo root so it can reach the root-level `rosey/locales/`
+# files (a `source:` cannot use `../`). Paths below are prefixed with `src/` to compensate.
 paths:
-  static: ""
-  uploads: assets/uploads
+  static: src
+  uploads: src/assets/uploads
 collections_config:
   pages:
-    path: pages
+    path: src/pages
     glob:
       - "!components.html"
       - "!404.html"
@@ -13,7 +15,7 @@ collections_config:
       default:
         path: .cloudcannon/schemas/page.html
   data:
-    path: _data
+    path: src/_data
     glob:
       - "!color_groups.yml"
     icon: data_usage
@@ -21,8 +23,26 @@ collections_config:
     disable_add: true
     disable_add_folder: true
     disable_file_actions: true
+  locales:
+    path: rosey/locales
+    name: Locales
+    icon: translate
+    disable_add: true
+    disable_add_folder: true
+    disable_file_actions: true
+    _inputs:
+      value:
+        type: html
+        label: Translation
+        cascade: true
+      original:
+        hidden: true
+        cascade: true
+      _base_original:
+        disabled: true
+        cascade: true
 file_config:
-  - glob: _data/site.yml
+  - glob: src/_data/site.yml
     _inputs:
       social_media_links:
         type: array
@@ -44,12 +64,19 @@ file_config:
                         - image/svg+xml
 data_config:
   fonts:
-    path: _data/fonts.yml
+    path: src/_data/fonts.yml
   theme:
-    path: _data/theme.yml
+    path: src/_data/theme.yml
   site:
-    path: _data/site.yml
+    path: src/_data/site.yml
+  # Rosey locale files, read by the RCC to bind inline editors. Key must be `locales_{code}`.
+  locales_es:
+    path: rosey/locales/es.json
 _inputs:
+  _uuid:
+    type: text
+    hidden: true
+    instance_value: UUID
   favicon:
     type: image
   arrow:

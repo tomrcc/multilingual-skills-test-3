@@ -1,1 +1,22 @@
-npx @bookshop/generate
+#!/usr/bin/env bash
+set -e
+
+# Regenerate Bookshop component structures for the CMS. This needs CloudCannon's
+# generated _cloudcannon/info.json to locate the output site, so it is a no-op
+# outside CloudCannon; `|| true` keeps a local/edge failure from aborting the
+# Rosey pipeline below.
+npx @bookshop/generate || true
+
+# --- Rosey multilingual pipeline (runs on the built _site output) ---
+# 1. Scan built HTML for data-rosey tags -> rosey/base.json
+npx rosey generate --source _site
+# 2. Create/update rosey/locales/{code}.json (preserving translations) and
+#    write the locale manifest to _site/_rcc/locales.json for the RCC.
+#    Locales are listed explicitly (add codes here to support more languages).
+npx rosey-cloudcannon-connector write-locales --source rosey --dest _site --locales es
+# 3. Move the untranslated build aside...
+mv ./_site ./_untranslated_site
+# 4. ...and rebuild with translations injected. Default language (en) stays at
+#    the site root; other locales build at /{locale}/. --exclusions keeps JSON
+#    assets (locale manifest, _cloudcannon/info.json) flowing through.
+npx rosey build --source _untranslated_site --dest _site --default-language en --default-language-at-root --exclusions "\.(html?)$"

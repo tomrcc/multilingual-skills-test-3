@@ -9,6 +9,7 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
+  _uuid:
   content:
     id:
     eyebrow_headline: What your customers say

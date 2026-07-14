@@ -1,0 +1,7 @@
+# Locales offered by the visitor-facing language picker.
+# `default: true` marks the language served at the site root (no /{code}/ prefix).
+- code: en
+  label: English
+  default: true
+- code: es
+  label: Español

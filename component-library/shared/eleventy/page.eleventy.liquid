@@ -1,9 +1,13 @@
 <div>
 {% for block in content_blocks %}
-    {% comment %} 
+    {% comment %}
         # The bind parameter here passes the inner fields of block to the component.
         # Imagine it like the ...spread operator in JavaScript.
+        # data-rosey-ns uses each block's stable _uuid so translation keys don't
+        # collide across blocks and survive reordering/insertion in CloudCannon.
     {% endcomment %}
-    {% bookshop "{{block._bookshop_name}}" bind: block %}
+    <div data-rosey-ns="{{ block._uuid }}">
+        {% bookshop "{{block._bookshop_name}}" bind: block %}
+    </div>
 {% endfor %}
 </div>

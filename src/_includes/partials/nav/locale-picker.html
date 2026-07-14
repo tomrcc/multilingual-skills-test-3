@@ -1,0 +1,83 @@
+{% comment %}
+  Visitor-facing language switcher.
+
+  Links are root-absolute and carry data-rosey-ignore so Rosey does NOT rewrite
+  them on generated /{locale}/ pages (otherwise the "switch to English" link would
+  be double-prefixed and break). The build-time markup always reflects the default
+  (en) perspective; the inline script below fixes the active state on the client
+  based on the real URL, and hides the picker inside the CloudCannon editor (the
+  RCC injects its own floating switcher there).
+{% endcomment %}
+{% assign base_path = page.url %}
+{% assign default_code = "en" %}
+{% for l in locales %}{% if l.default %}{% assign default_code = l.code %}{% endif %}{% endfor %}
+
+<nav class="c-locale-picker" aria-label="Language" data-default-code="{{ default_code }}">
+  <ul class="c-locale-picker__list">
+    {% for l in locales %}
+      {% if l.default %}
+        {% assign href = base_path %}
+      {% else %}
+        {% assign href = "/" | append: l.code | append: base_path %}
+      {% endif %}
+      <li class="c-locale-picker__item">
+        <a class="c-locale-picker__link{% if l.default %} active{% endif %}"
+           href="{{ href }}"
+           hreflang="{{ l.code }}"
+           lang="{{ l.code }}"
+           data-locale-code="{{ l.code }}"
+           data-rosey-ignore>{{ l.label }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>
+
+<style>
+  .c-locale-picker__list {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .c-locale-picker__link {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.7;
+    font-size: var(--paragraph-small, 0.85rem);
+  }
+  .c-locale-picker__link.active {
+    opacity: 1;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+</style>
+
+<script>
+  (function () {
+    var nav = document.querySelector('nav[aria-label="Language"]');
+    if (!nav) return;
+    // Inside the CloudCannon Visual Editor, hide this picker — the RCC provides its own.
+    if (window.inEditorMode) {
+      document.querySelectorAll('nav[aria-label="Language"]').forEach(function (n) {
+        n.style.display = "none";
+      });
+      return;
+    }
+    // Visitor pages: derive the active locale from the URL's first path segment.
+    var links = Array.prototype.slice.call(nav.querySelectorAll("a[data-locale-code]"));
+    var codes = links.map(function (a) { return a.getAttribute("data-locale-code"); });
+    var seg = window.location.pathname.split("/")[1];
+    var current = codes.indexOf(seg) !== -1 ? seg : nav.getAttribute("data-default-code");
+    links.forEach(function (a) {
+      var isActive = a.getAttribute("data-locale-code") === current;
+      a.classList.toggle("active", isActive);
+      if (isActive) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+  })();
+</script>

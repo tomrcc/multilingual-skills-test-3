@@ -20,13 +20,13 @@
       {% endif %}
       {% if text %}
         <div class="{{ c }}__content-text">
-          {% bookshop "generic/text-block" bind:description %}
+          {% bookshop "generic/text-block" bind:description rosey_off:rosey_off %}
         </div>
       {% endif %}
       {% if icons %}
         <div class="{{ c }}__icons">
           {% for icon in icons %}
-            {% bookshop "generic/labelled-icon" bind:icon %}
+            {% bookshop "generic/labelled-icon" bind:icon rosey_ns:forloop.index0 %}
           {% endfor %}
         </div>
       {% endif %}

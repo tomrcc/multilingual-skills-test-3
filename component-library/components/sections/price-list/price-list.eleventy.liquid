@@ -10,13 +10,14 @@
 
     <div class="{{ c }}__lists">
         {% for list in content.lists %}
-            <h4 class="{{ c }}__lists__list__heading">{{ list.list_heading }}</h4>
+            {% assign list_i = forloop.index0 %}
+            <h4 class="{{ c }}__lists__list__heading" data-rosey="list-{{ list_i }}-heading">{{ list.list_heading }}</h4>
             <ul class="{{ c }}__lists__list">
                 {% for item in list.list_items %}
                     <li class="{{ c }}__lists__list__item">
-                        <p class="{{ c }}__lists__list__item__label">{{ item.label }}</p>
+                        <p class="{{ c }}__lists__list__item__label" data-rosey="list-{{ list_i }}-item-{{ forloop.index0 }}-label">{{ item.label }}</p>
                         <span class="{{ c }}__lists__list__item__seperator"></span>
-                        <p class="{{ c }}__lists__list__item__detail">{{ item.detail }}</p>
+                        <p class="{{ c }}__lists__list__item__detail" data-rosey="list-{{ list_i }}-item-{{ forloop.index0 }}-detail">{{ item.detail }}</p>
                     </li>
                 {% endfor %}
             </ul>

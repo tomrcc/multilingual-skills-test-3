@@ -1,7 +1,7 @@
 {% assign_local c = "c-text-block" %}
 
 {% if text %}
-    <div class="{{ c }}">    
+    <div class="{{ c }}"{% unless rosey_off %} data-rosey="text"{% endunless %}>
         {{ text | markdownify }}
     </div>
 {% endif %}

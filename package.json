@@ -42,6 +42,8 @@
 		"js-yaml": "^4.1.0",
 		"markdown-it": "^14.1.0",
 		"npm-run-all": "^4.1.5",
+		"rosey": "^2.3.10",
+		"rosey-cloudcannon-connector": "github:tomrcc/rcc-v2",
 		"sass": "^1.80.5",
 		"sharp": "^0.33.5"
 	}
