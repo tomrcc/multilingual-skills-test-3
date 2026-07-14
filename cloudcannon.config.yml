@@ -7,6 +7,10 @@ paths:
 collections_config:
   pages:
     path: src/pages
+    # Routing is permalink-driven ({permalink} field), and removing `source`
+    # disables CloudCannon's automatic input->output URL inference — without an
+    # explicit url, pages open in the Data Editor instead of the Visual Editor.
+    url: "{permalink}"
     glob:
       - "!components.html"
       - "!404.html"
